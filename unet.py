@@ -1,29 +1,11 @@
-#==============================================================================
-# Imported Modules
-#==============================================================================
-
 import tensorflow as tf
 from tensorflow.keras.layers import (Conv2D, Conv2DTranspose, Lambda, Dropout, 
                                      MaxPooling2D, LeakyReLU, concatenate, BatchNormalization)
 
-#==============================================================================
-# Function Definitions
-#==============================================================================
 
 def unet_conv_block(x, filters, kernel_size=3, batch_norm=True, dropout=False,
                     name_prefix="enc_", name_suffix=0):
-    """
-    Pass the input tensor through 2 Conv layers with LeakyReLU activation + opt. through
-    BatchNorm and Dropout layers.
-    :param x:                       Input tensor.
-    :param filters:                 Number of filters.
-    :param kernel_size:             Kernel size.
-    :param batch_norm:              Flag to apply batch normalization.
-    :param dropout:                 Flag to apply dropout.
-    :param name_prefix:             Prefix for the layers' names.
-    :param name_suffix:             Suffix for the layers' names.
-    :return:                        Transformed tensor.
-    """
+
     name_fn = lambda layer, num: '{}{}{}-{}'.format(name_prefix, layer, name_suffix, num)
 
     # First convolution:
@@ -49,19 +31,7 @@ def unet_conv_block(x, filters, kernel_size=3, batch_norm=True, dropout=False,
 
 def unet_deconv_block(x, filters, kernel_size=2, strides=2, batch_norm=True, dropout=False,
                       name_prefix="dec_", name_suffix=0):
-    """
-    Pass the input tensor through 1 Conv layer and 1 transposed (de)Conv layer with LeakyReLU
-    activation + opt. through BatchNorm and Dropout layers.
-    :param x:                       Input tensor.
-    :param filters:                 Number of filters.
-    :param kernel_size:             Kernel size.
-    :param strides:                 Strides for transposed convolution.
-    :param batch_norm:              Flag to apply batch normalization.
-    :param dropout:                 Flag to apply dropout.
-    :param name_prefix:             Prefix for the layers' names.
-    :param name_suffix:             Suffix for the layers' names.
-    :return:                        Transformed tensor.
-    """
+
     name_fn = lambda layer, num: '{}{}{}-{}'.format(name_prefix, layer, name_suffix, num)
 
     # First convolution:
@@ -99,18 +69,7 @@ ResizeToSame = lambda name: Lambda(
 
 def unet(x, out_channels=3, layer_depth=4, filters_orig=32, kernel_size=4,
          batch_norm=True, final_activation='sigmoid'):
-    """
-    Pass the tensor through a trainable UNet.
-    :param x:                       Input tensor.
-    :param out_channels:            Number of output channels.
-    :param layer_depth:             Number of convolutional blocks vertically stacked.
-    :param filters_orig:            Number of filters for the 1st block (then multiplied by 2 
-                                    every block).
-    :param kernel_size:             Kernel size for layers.
-    :param batch_norm:              Flag to apply batch normalization.
-    :param final_activation:        Name/function for the last activation.
-    :return:                        Output tensor.
-    """
+
     # Encoding layers:
     filters = filters_orig
     outputs_for_skip = []
