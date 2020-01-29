@@ -81,6 +81,9 @@ def downscale(dataset='rock_paper-scissors', return_batch_as_tuple=True):
         downscaled_images.append(down)
         original_images.append(orig)
 
+    downscaled_images = tf.convert_to_tensor(downscaled_images)
+    original_images = tf.convert_to_tensor(original_images)
+
     return (downscaled_images, original_images) if return_batch_as_tuple else {'image': downscaled_images,
                                                                                 'label': original_images}
 
