@@ -109,16 +109,6 @@ def name_layer_factory(num=0, name_prefix="", name_suffix=""):
 def conv_bn_lrelu(filters, kernel_size=3, batch_norm=True,
                   kernel_initializer='he_normal', padding='same',
                   name_fn=lambda layer: "conv_bn_lrelu-{}".format(layer)):
-    """
-    Return a function behaving like a sequence convolution + BN + lReLU.
-    :param filters:              Number of filters for the convolution
-    :param kernel_size:          Kernel size for the convolutions
-    :param batch_norm:           Flag to perform batch normalization
-    :param kernel_initializer:   Name of kernel initialization method
-    :param padding:              Name of padding option
-    :param name_fn:              Function to name each layer of this sequence
-    :return:                     Function chaining layers
-    """
     
     def block(x):
         x = Conv2D(filters, kernel_size=kernel_size, 
@@ -135,16 +125,6 @@ def conv_bn_lrelu(filters, kernel_size=3, batch_norm=True,
 def unet_conv_block(filters, kernel_size=3,
                     batch_norm=True, dropout=False, 
                     name_prefix="enc_", name_suffix=0):
-    """
-    Return a function behaving like a U-Net convolution block.
-    :param filters:              Number of filters for the convolution
-    :param kernel_size:          Kernel size for the convolutions
-    :param batch_norm:           Flag to perform batch normalization
-    :param dropout:              NFlag to perform dropout between the two convs
-    :param name_prefix:          Prefix for the layer names
-    :param name_suffix:          FSuffix for the layer names
-    :return:                     Function chaining layers
-    """
     
     def block(x):
         # First convolution:
@@ -165,16 +145,6 @@ def unet_conv_block(filters, kernel_size=3,
 
 def unet(x, layer_depth=4, filters_orig=32, kernel_size=4, 
          batch_norm=True, dropout=True, final_activation='sigmoid'):
-    """
-    Define a U-Net network.
-    :param x:                    Input tensor/placeholder
-    :param filters_orig:         Number of filters for the 1st CNN layer
-    :param kernel_size:          Kernel size for the convolutions
-    :param batch_norm:           Flag to perform batch normalization
-    :param dropout:              Flag to perform dropout
-    :param final_activation:     Name of activation function for the final layer
-    :return:                     Network (Keras Functional API)
-    """
     num_channels = x.shape[-1]
     
     # Encoding layers:
