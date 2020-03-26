@@ -84,7 +84,7 @@ def get_hands_dataset_for_superres(phase='train', scale_factor=4, batch_size=32,
     
     superres_dataset = superres_dataset.batch(batch_size)
     superres_dataset = superres_dataset.map(prepare_data_fn, num_parallel_calls=4)
-    superres_dataset = superres_dataset.prefetch(1)
+    superres_dataset = superres_dataset.prefetch(tf.data.experimental.AUTOTUNE)
     
     return superres_dataset
 
